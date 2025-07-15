@@ -39,9 +39,7 @@ Response:
 <generated text>
 ```
 
-## Flowcharts
-
-### High-Level Overview
+## Flowchart
 
 ```mermaid
 graph TD
@@ -59,46 +57,3 @@ graph TD
     H --> I
     I --> A
 ```
-
-### API Request Flow
-
-```mermaid
-sequenceDiagram
-    participant User
-    participant Actix
-    participant AI
-    participant Provider
-
-    User->>Actix: POST /generate
-    Actix->>AI: generate(provider, prompt)
-    AI->>Provider: generate(prompt)
-    Provider-->>AI: "Generated Text"
-    AI-->>Actix: "Generated Text"
-    Actix-->>User: 200 OK
-```
-
-### CLI Request Flow
-
-```mermaid
-graph TD
-    A[User] -->|`cargo run`| B(Clap)
-    B --> C{Parse Arguments}
-    C --> D[AI]
-    D --> E{Provider?}
-    E -->|OpenAI| F[OpenAI]
-    E -->|Gemini| G[Gemini]
-    E -->|OpenRouter| H[OpenRouter]
-    E -->|HuggingFace| I[HuggingFace]
-    E -->|Local| J[Local Model]
-    F --> K[Generated Text]
-    G --> K
-    H --> K
-    I --> K
-    J --> K
-    K --> L[stdout]
-    L --> A
-```
-
-## Documentation
-
-For more detailed documentation, see the `docs` directory.
