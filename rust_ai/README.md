@@ -17,8 +17,24 @@ It will have options of using openai models , gemini models , openrouter , huggi
 
 ### CLI
 
+#### Generate Text
+
 ```bash
-cargo run -- --provider <provider> --prompt <prompt>
+cargo run -- cli --provider openai --prompt "Hello, world!"
+```
+
+#### Generate a File
+
+```bash
+cargo run -- file --provider openai --prompt "Create a hello world program in Python" --output hello.py
+```
+
+### TUI
+
+To run the TUI, use the `tui` subcommand:
+
+```bash
+cargo run -- tui
 ```
 
 ### API
@@ -31,36 +47,62 @@ Request:
 
 ```json
 {
-    "provider": "<provider>",
-    "prompt": "<prompt>"
+    "provider": "openai",
+    "prompt": "Hello, world!"
 }
 ```
 
 Response:
 
 ```
-<generated text>
+This is a response from OpenAI.
 ```
 
-## Flowcharts
+## Design and Architecture
 
 ### High-Level Overview
 
 ```mermaid
 graph TD
-    A[User] -->|CLI, TUI, or API| B(Rust AI)
-    B --> C{Mode?}
-    C -->|Generate| D(Provider Selection)
-    C -->|Chat| E(Chat Interface)
-    C -->|File| F(File Generation)
-    C -->|Agents| G(Agents Interface)
-    D --> H{Provider?}
-    H -->|OpenAI| I[OpenAI]
-    H -->|Gemini| J[Gemini]
-    H -->|OpenRouter| K[OpenRouter]
-    H -->|HuggingFace| L[HuggingFace]
-    H -->|Local| M[Local Model]
-    I --> N[Generated Text]
+    subgraph User Interface
+        A[User]
+    end
+
+    subgraph Application Logic
+        B(Rust AI)
+        C{Mode?}
+        D(Provider Selection)
+        E(Chat Interface)
+        F(File Generation)
+        G(Agents Interface)
+    end
+
+    subgraph AI Providers
+        H{Provider?}
+        I[OpenAI]
+        J[Gemini]
+        K[OpenRouter]
+        L[HuggingFace]
+        M[Local Model]
+    end
+
+    subgraph Output
+        N[Generated Text]
+    end
+
+    A -->|CLI, TUI, or API| B
+    B --> C
+    C -->|Generate| D
+    C -->|Chat| E
+    C -->|File| F
+    C -->|Agents| G
+    D --> H
+    H -->|OpenAI| I
+    H -->|Gemini| J
+    H -->|OpenRouter| K
+    H -->|HuggingFace| L
+    H -->|Local| M
+    I --> N
     J --> N
     K --> N
     L --> N
@@ -109,6 +151,24 @@ graph TD
     K --> L[stdout]
     L --> A
 ```
+
+## Development
+
+### Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+### Building from Source
+
+To build the project from source, you will need to have Rust and Cargo installed. You can install them by following the instructions at [https://rustup.rs/](https://rustup.rs/).
+
+Once you have Rust and Cargo installed, you can build the project by running the following command:
+
+```bash
+cargo build --release
+```
+
+The compiled binary will be located at `target/release/rust_ai`.
 
 ## Documentation
 
