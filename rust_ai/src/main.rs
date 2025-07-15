@@ -1,6 +1,6 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
 use clap::{Parser, Subcommand};
-use rust_ai::{tui, AI, Provider};
+use rust_ai::{gui, tui, AI, Provider};
 use serde::Deserialize;
 
 #[derive(Parser)]
@@ -16,18 +16,20 @@ enum Commands {
     Web,
     /// Runs the TUI
     Tui,
+    /// Runs the GUI
+    Gui,
     /// Runs the CLI
     Cli {
         #[clap(short, long)]
         provider: String,
-        #[clap(short, long)]
+        #[clap(short = 'P', long)]
         prompt: String,
     },
     /// Generates a file
     File {
         #[clap(short, long)]
         provider: String,
-        #[clap(short, long)]
+        #[clap(short = 'P', long)]
         prompt: String,
         #[clap(short, long)]
         output: String,
@@ -74,6 +76,11 @@ async fn main() -> std::io::Result<()> {
         Commands::Tui => {
             tui::run();
             Ok(())
+        }
+        Commands::Gui => {
+            let app = gui::RustAIApp::default();
+            let native_options = eframe::NativeOptions::default();
+            eframe::run_native("Rust AI", native_options, Box::new(|_cc| Box::new(app))).map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e.to_string()))
         }
         Commands::Cli { provider, prompt } => {
             let provider = match provider.as_str() {

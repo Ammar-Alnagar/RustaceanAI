@@ -1,7 +1,9 @@
 pub mod agents;
 pub mod providers;
 pub mod tui;
+pub mod gui;
 
+#[derive(Clone, PartialEq, Debug)]
 pub enum Provider {
     OpenAI,
     Gemini,

@@ -5,7 +5,8 @@ use std::process::Command; // Run programs
 #[test]
 fn test_cli_openai() {
     let mut cmd = Command::cargo_bin("rust_ai").unwrap();
-    cmd.arg("--provider")
+    cmd.arg("cli")
+        .arg("--provider")
         .arg("openai")
         .arg("--prompt")
         .arg("hello");
@@ -17,7 +18,8 @@ fn test_cli_openai() {
 #[test]
 fn test_cli_gemini() {
     let mut cmd = Command::cargo_bin("rust_ai").unwrap();
-    cmd.arg("--provider")
+    cmd.arg("cli")
+        .arg("--provider")
         .arg("gemini")
         .arg("--prompt")
         .arg("hello");
@@ -29,7 +31,8 @@ fn test_cli_gemini() {
 #[test]
 fn test_cli_openrouter() {
     let mut cmd = Command::cargo_bin("rust_ai").unwrap();
-    cmd.arg("--provider")
+    cmd.arg("cli")
+        .arg("--provider")
         .arg("openrouter")
         .arg("--prompt")
         .arg("hello");
@@ -41,7 +44,8 @@ fn test_cli_openrouter() {
 #[test]
 fn test_cli_huggingface() {
     let mut cmd = Command::cargo_bin("rust_ai").unwrap();
-    cmd.arg("--provider")
+    cmd.arg("cli")
+        .arg("--provider")
         .arg("huggingface")
         .arg("--prompt")
         .arg("hello");
@@ -53,7 +57,8 @@ fn test_cli_huggingface() {
 #[test]
 fn test_cli_local() {
     let mut cmd = Command::cargo_bin("rust_ai").unwrap();
-    cmd.arg("--provider")
+    cmd.arg("cli")
+        .arg("--provider")
         .arg("local")
         .arg("--prompt")
         .arg("hello");
