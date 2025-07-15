@@ -1,17 +1,14 @@
 
-
 # Rust AI
 
 <p align="center">
-  <img src="https://www.rust-lang.org/static/images/rust-logo-512x512.png" width="100" alt="Rust Logo">
+  <img src="https://www.rust-lang.org/logos/rust-logo-512x512.png" width="100" alt="Rust Logo">
 </p>
 
 <h1 align="center">Rust AI</h1>
 
 <p align="center">
-  <a href="https://github.com/rust-ai/rust-ai/actions">
-    <img src="https://github.com/rust-ai/rust-ai/workflows/CI/badge.svg" alt="CI Status">
-  </a>
+ 
   <a href="https://crates.io/crates/rust-ai">
     <img src="https://img.shields.io/crates/v/rust-ai.svg" alt="Crates.io">
   </a>
@@ -23,20 +20,20 @@
   </a>
 </p>
 
-**Rust AI** is a modular, high-performance AI framework written entirely in Rust. It supports integration with cloud-based and local AI models, providing unified access via CLI, TUI, GUI, or RESTful API.
+**Rust AI** is a high-performance, modular AI framework written in Rust. It supports multiple AI providers—cloud-based and local—accessible via CLI, TUI, GUI, and REST API.
 
 ---
 
 ## 🚀 Features
 
-* **Multi-Provider Support**: Seamlessly switch between OpenAI, Gemini, HuggingFace, OpenRouter, and local models.
-* **Local Model Integration**: Run and manage self-hosted models with ease.
-* **Flexible Interfaces**: Includes command-line (CLI), terminal UI (TUI), graphical UI (GUI), and REST API endpoints.
-* **Chat Mode**: Engage in dynamic, stateful AI conversations.
-* **File Generation**: Generate full files from prompts.
-* **Agent-Based Execution**: Automate workflows using AI-powered agents.
-* **Extensible Architecture**: Modular design makes it easy to add new models, backends, and interfaces.
-* **Rust Performance**: Leverages Rust’s memory safety and speed for efficient, low-latency AI.
+* 🔌 **Multi-Provider Support**: OpenAI, Gemini, HuggingFace, OpenRouter, and self-hosted models.
+* 🧠 **Local Model Execution**: Bring your own fine-tuned models.
+* 🧰 **Multiple Interfaces**: CLI, terminal-based TUI, graphical GUI, and REST API.
+* 💬 **Chat Mode**: Stateful conversational experience.
+* 📄 **File Generation**: Produce complete files from prompts.
+* 🤖 **Agent Mode**: Automate workflows with AI-powered agents.
+* 🧱 **Modular Architecture**: Easily extendable with new providers and features.
+* ⚡ **Rust-Powered Performance**: Low-latency, memory-safe, and efficient execution.
 
 ---
 
@@ -44,7 +41,7 @@
 
 ### Prerequisites
 
-* [Rust and Cargo](https://rustup.rs/)
+* [Rust toolchain (cargo, rustc)](https://rustup.rs)
 
 ### Build from Source
 
@@ -54,14 +51,17 @@ cd rust-ai
 cargo build --release
 ```
 
-The compiled binary will be located at:
-`target/release/rust_ai`
+The binary will be available at:
+
+```
+target/release/rust_ai
+```
 
 ---
 
-## 💡 Usage
+## 💡 Usage Examples
 
-### Command-Line Interface (CLI)
+### 📟 CLI
 
 **Text Generation**
 
@@ -72,35 +72,34 @@ cargo run -- cli --provider openai --prompt "Hello, world!"
 **File Generation**
 
 ```bash
-cargo run -- file --provider openai --prompt "Write a Python Hello World" --output hello.py
+cargo run -- file --provider openai --prompt "Generate Python Hello World" --output hello.py
 ```
 
-### Terminal UI (TUI)
+### 🖥️ TUI
 
 ```bash
 cargo run -- tui
 ```
 
-### Graphical UI (GUI)
+### 🖼️ GUI
 
 ```bash
 cargo run -- gui
 ```
 
-### REST API
+### 🌐 REST API
 
-**Start Server**
+Start the API server:
 
 ```bash
 cargo run -- api
 ```
 
-**POST /generate**
+#### Endpoint: POST `/generate`
 
-```http
-POST http://127.0.0.1:8080/generate
-Content-Type: application/json
+**Request**
 
+```json
 {
   "provider": "openai",
   "prompt": "Hello, world!"
@@ -115,14 +114,14 @@ Content-Type: application/json
 
 ---
 
-## 🧠 Architecture Overview
+## 🧭 Architecture Overview
 
 ```mermaid
 graph TD
-    A[User Interface] -->|CLI / TUI / GUI / API| B(Rust AI Core)
+    A[User] -->|CLI / TUI / GUI / API| B(Rust AI Core)
     B --> C{Mode}
-    C --> D(Provider Selection)
-    C --> E(Chat)
+    C --> D(Provider Selector)
+    C --> E(Chat Handler)
     C --> F(File Generator)
     C --> G(Agent Executor)
     D --> H{Provider}
@@ -130,7 +129,7 @@ graph TD
     H --> J(Gemini)
     H --> K(OpenRouter)
     H --> L(HuggingFace)
-    H --> M(Local)
+    H --> M(Local Models)
     I --> N[Output]
     J --> N
     K --> N
@@ -146,11 +145,13 @@ graph TD
 
 ## ✨ Example Feature
 
-A sample feature has been implemented in:
+New module located at:
 
-> `rust_ai/src/new_feature.rs`
+```
+rust_ai/src/new_feature.rs
+```
 
-### Example Usage
+### Usage
 
 ```rust
 use rust_ai::new_feature::new_rust_function;
@@ -164,19 +165,10 @@ println!("{}", new_rust_function());
 
 Contributions are welcome!
 
-1. Fork the repository
-2. Create a new branch: `git checkout -b feature/my-feature`
-3. Commit changes: `git commit -m "Add my feature"`
-4. Push the branch: `git push origin feature/my-feature`
+1. Fork the repo
+2. Create a branch: `git checkout -b feature/my-feature`
+3. Commit your changes: `git commit -m "Add feature"`
+4. Push: `git push origin feature/my-feature`
 5. Open a pull request
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for more details (if available).
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License.
-See [LICENSE](LICENSE) for full details.
 
 ---
