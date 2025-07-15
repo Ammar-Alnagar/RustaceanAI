@@ -176,6 +176,21 @@ Contributions are what make the open-source community such an amazing place to l
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
+
+## ✨ New Feature
+
+A new feature has been added to this project!
+
+- **`rust_ai/src/new_feature.rs`**: This file contains a simple function that returns a string.
+
+### Usage
+
+```rust
+use rust_ai::new_feature::new_rust_function;
+
+println!("{}", new_rust_function());
+```
+
 ## 📞 Contact
 
 Project Link: [https://github.com/rust-ai/rust-ai](https://github.com/rust-ai/rust-ai)
