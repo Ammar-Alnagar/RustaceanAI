@@ -2,6 +2,7 @@ pub mod agents;
 pub mod providers;
 pub mod tui;
 pub mod gui;
+pub mod new_feature;
 
 #[derive(Clone, PartialEq, Debug)]
 pub enum Provider {
