@@ -1,6 +1,6 @@
 use cursive::views::{Dialog, EditView, SelectView, TextView};
 use cursive::Cursive;
-use rust_ai::{AI, Provider};
+use crate::{AI, Provider};
 
 enum Mode {
     Generate,
@@ -73,8 +73,8 @@ fn show_agents(s: &mut Cursive) {
             .title("Enter a task for the agents")
             .content(EditView::new().on_submit(move |s, task| {
                 s.pop_layer();
-                let maestro = rust_ai::agents::Maestro::new();
-                let response = maestro.delegate(task);
+                let team = crate::agents::Team::new();
+                let response = team.delegate(task);
                 s.add_layer(
                     Dialog::around(TextView::new(response))
                         .title("Agents Response")
@@ -162,10 +162,10 @@ fn show_chat(s: &mut Cursive) {
             )
             .content(
                 EditView::new().on_submit(move |s, message| {
+                    let provider = s.user_data::<Provider>().unwrap().clone();
                     let history = s.user_data::<Vec<String>>().unwrap();
                     history.push(format!("User: {}", message));
 
-                    let provider = s.user_data::<Provider>().unwrap().clone();
                     let ai = AI::new(provider);
                     let response = ai.chat(history);
                     history.push(format!("AI: {}", response));
