@@ -1,4 +1,6 @@
+pub mod agents;
 pub mod providers;
+pub mod tui;
 
 pub enum Provider {
     OpenAI,
@@ -10,6 +12,7 @@ pub enum Provider {
 
 pub trait Model {
     fn generate(&self, prompt: &str) -> String;
+    fn chat(&self, history: &[String]) -> String;
 }
 
 pub enum AIModel {
@@ -28,6 +31,16 @@ impl Model for AIModel {
             AIModel::OpenRouter(model) => model.generate(prompt),
             AIModel::HuggingFace(model) => model.generate(prompt),
             AIModel::Local(model) => model.generate(prompt),
+        }
+    }
+
+    fn chat(&self, history: &[String]) -> String {
+        match self {
+            AIModel::OpenAI(model) => model.chat(history),
+            AIModel::Gemini(model) => model.chat(history),
+            AIModel::OpenRouter(model) => model.chat(history),
+            AIModel::HuggingFace(model) => model.chat(history),
+            AIModel::Local(model) => model.chat(history),
         }
     }
 }
@@ -50,5 +63,9 @@ impl AI {
 
     pub fn generate(&self, prompt: &str) -> String {
         self.model.generate(prompt)
+    }
+
+    pub fn chat(&self, history: &[String]) -> String {
+        self.model.chat(history)
     }
 }

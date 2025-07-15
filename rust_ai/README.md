@@ -8,14 +8,33 @@ It will have options of using openai models , gemini models , openrouter , huggi
 
 *   **Multiple AI Providers:** Switch between different AI providers on the fly.
 *   **Local Models:** Use your own custom models.
-*   **CLI and API:** Interact with the system from the command line or from other applications.
+*   **CLI, TUI, and API:** Interact with the system from the command line, a text-based user interface, or from other applications.
+*   **Chat Mode:** Have a conversation with the AI.
+*   **File Generation:** Generate entire files based on a prompt.
+*   **Agents Mode:** Delegate tasks to a team of AI agents.
 
 ## Usage
 
 ### CLI
 
+#### Generate Text
+
 ```bash
-cargo run -- --provider <provider> --prompt <prompt>
+cargo run -- cli --provider openai --prompt "Hello, world!"
+```
+
+#### Generate a File
+
+```bash
+cargo run -- file --provider openai --prompt "Create a hello world program in Python" --output hello.py
+```
+
+### TUI
+
+To run the TUI, use the `tui` subcommand:
+
+```bash
+cargo run -- tui
 ```
 
 ### API
@@ -28,36 +47,70 @@ Request:
 
 ```json
 {
-    "provider": "<provider>",
-    "prompt": "<prompt>"
+    "provider": "openai",
+    "prompt": "Hello, world!"
 }
 ```
 
 Response:
 
 ```
-<generated text>
+This is a response from OpenAI.
 ```
 
-## Flowcharts
+## Design and Architecture
 
 ### High-Level Overview
 
 ```mermaid
 graph TD
-    A[User] -->|CLI or API| B(Rust AI)
-    B --> C{Provider?}
-    C -->|OpenAI| D[OpenAI]
-    C -->|Gemini| E[Gemini]
-    C -->|OpenRouter| F[OpenRouter]
-    C -->|HuggingFace| G[HuggingFace]
-    C -->|Local| H[Local Model]
-    D --> I[Generated Text]
-    E --> I
-    F --> I
-    G --> I
-    H --> I
-    I --> A
+    subgraph User Interface
+        A[User]
+    end
+
+    subgraph Application Logic
+        B(Rust AI)
+        C{Mode?}
+        D(Provider Selection)
+        E(Chat Interface)
+        F(File Generation)
+        G(Agents Interface)
+    end
+
+    subgraph AI Providers
+        H{Provider?}
+        I[OpenAI]
+        J[Gemini]
+        K[OpenRouter]
+        L[HuggingFace]
+        M[Local Model]
+    end
+
+    subgraph Output
+        N[Generated Text]
+    end
+
+    A -->|CLI, TUI, or API| B
+    B --> C
+    C -->|Generate| D
+    C -->|Chat| E
+    C -->|File| F
+    C -->|Agents| G
+    D --> H
+    H -->|OpenAI| I
+    H -->|Gemini| J
+    H -->|OpenRouter| K
+    H -->|HuggingFace| L
+    H -->|Local| M
+    I --> N
+    J --> N
+    K --> N
+    L --> N
+    M --> N
+    E --> N
+    F --> N
+    G --> N
+    N --> A
 ```
 
 ### API Request Flow
@@ -98,6 +151,24 @@ graph TD
     K --> L[stdout]
     L --> A
 ```
+
+## Development
+
+### Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request.
+
+### Building from Source
+
+To build the project from source, you will need to have Rust and Cargo installed. You can install them by following the instructions at [https://rustup.rs/](https://rustup.rs/).
+
+Once you have Rust and Cargo installed, you can build the project by running the following command:
+
+```bash
+cargo build --release
+```
+
+The compiled binary will be located at `target/release/rust_ai`.
 
 ## Documentation
 

@@ -1,6 +1,38 @@
 use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
-use rust_ai::{AI, Provider};
+use clap::{Parser, Subcommand};
+use rust_ai::{tui, AI, Provider};
 use serde::Deserialize;
+
+#[derive(Parser)]
+#[clap(author, version, about, long_about = None)]
+struct Cli {
+    #[clap(subcommand)]
+    command: Commands,
+}
+
+#[derive(Subcommand)]
+enum Commands {
+    /// Runs the web server
+    Web,
+    /// Runs the TUI
+    Tui,
+    /// Runs the CLI
+    Cli {
+        #[clap(short, long)]
+        provider: String,
+        #[clap(short, long)]
+        prompt: String,
+    },
+    /// Generates a file
+    File {
+        #[clap(short, long)]
+        provider: String,
+        #[clap(short, long)]
+        prompt: String,
+        #[clap(short, long)]
+        output: String,
+    },
+}
 
 #[derive(Deserialize)]
 struct AIRequest {
@@ -30,12 +62,56 @@ async fn generate(req_body: web::Json<AIRequest>) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .service(hello)
-            .service(generate)
-    })
-    .bind(("127.0.0.1", 8080))?
-    .run()
-    .await
+    let cli = Cli::parse();
+
+    match &cli.command {
+        Commands::Web => {
+            HttpServer::new(|| App::new().service(hello).service(generate))
+                .bind(("127.0.0.1", 8080))?
+                .run()
+                .await
+        }
+        Commands::Tui => {
+            tui::run();
+            Ok(())
+        }
+        Commands::Cli { provider, prompt } => {
+            let provider = match provider.as_str() {
+                "openai" => Provider::OpenAI,
+                "gemini" => Provider::Gemini,
+                "openrouter" => Provider::OpenRouter,
+                "huggingface" => Provider::HuggingFace,
+                "local" => Provider::Local,
+                _ => {
+                    println!("Invalid provider");
+                    return Ok(());
+                }
+            };
+            let ai = AI::new(provider);
+            let response = ai.generate(prompt);
+            println!("{}", response);
+            Ok(())
+        }
+        Commands::File {
+            provider,
+            prompt,
+            output,
+        } => {
+            let provider = match provider.as_str() {
+                "openai" => Provider::OpenAI,
+                "gemini" => Provider::Gemini,
+                "openrouter" => Provider::OpenRouter,
+                "huggingface" => Provider::HuggingFace,
+                "local" => Provider::Local,
+                _ => {
+                    println!("Invalid provider");
+                    return Ok(());
+                }
+            };
+            let ai = AI::new(provider);
+            let response = ai.generate(prompt);
+            std::fs::write(output, response)?;
+            Ok(())
+        }
+    }
 }
