@@ -8,7 +8,10 @@ It will have options of using openai models , gemini models , openrouter , huggi
 
 *   **Multiple AI Providers:** Switch between different AI providers on the fly.
 *   **Local Models:** Use your own custom models.
-*   **CLI and API:** Interact with the system from the command line or from other applications.
+*   **CLI, TUI, and API:** Interact with the system from the command line, a text-based user interface, or from other applications.
+*   **Chat Mode:** Have a conversation with the AI.
+*   **File Generation:** Generate entire files based on a prompt.
+*   **Agents Mode:** Delegate tasks to a team of AI agents.
 
 ## Usage
 
@@ -45,19 +48,27 @@ Response:
 
 ```mermaid
 graph TD
-    A[User] -->|CLI or API| B(Rust AI)
-    B --> C{Provider?}
-    C -->|OpenAI| D[OpenAI]
-    C -->|Gemini| E[Gemini]
-    C -->|OpenRouter| F[OpenRouter]
-    C -->|HuggingFace| G[HuggingFace]
-    C -->|Local| H[Local Model]
-    D --> I[Generated Text]
-    E --> I
-    F --> I
-    G --> I
-    H --> I
-    I --> A
+    A[User] -->|CLI, TUI, or API| B(Rust AI)
+    B --> C{Mode?}
+    C -->|Generate| D(Provider Selection)
+    C -->|Chat| E(Chat Interface)
+    C -->|File| F(File Generation)
+    C -->|Agents| G(Agents Interface)
+    D --> H{Provider?}
+    H -->|OpenAI| I[OpenAI]
+    H -->|Gemini| J[Gemini]
+    H -->|OpenRouter| K[OpenRouter]
+    H -->|HuggingFace| L[HuggingFace]
+    H -->|Local| M[Local Model]
+    I --> N[Generated Text]
+    J --> N
+    K --> N
+    L --> N
+    M --> N
+    E --> N
+    F --> N
+    G --> N
+    N --> A
 ```
 
 ### API Request Flow
